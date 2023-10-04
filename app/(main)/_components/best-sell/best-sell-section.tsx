@@ -6,7 +6,7 @@ interface BestSellSectionProps {}
 const BestSellSection: FC<BestSellSectionProps> = ({}) => {
   return (
     <div className="py-4">
-      <div className="flex items-center md:justify-between gap-10">
+      <div className="flex flex-col items-center md:flex-row md:justify-between gap-2">
         <h3 className="font-bold">الأكثر بيعا اليوم</h3>
         <ul className="flex text-sm gap-2 md:gap-10">
           <li className="transition hover:text-emerald-500 cursor-pointer">

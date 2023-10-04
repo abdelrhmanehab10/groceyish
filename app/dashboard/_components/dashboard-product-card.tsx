@@ -1,26 +1,22 @@
+"use client";
+
+import { FC } from "react";
+import Image from "next/image";
+import { AiFillDelete, AiFillEdit, AiFillStar } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import Image from "next/image";
-import { FC } from "react";
-import { AiFillStar, AiOutlineShoppingCart } from "react-icons/ai";
+interface DashboardProductCardProps {}
 
-interface BestSellCardProps {}
-
-const BestSellCard: FC<BestSellCardProps> = ({}) => {
+const DashboardProductCard: FC<DashboardProductCardProps> = ({}) => {
   return (
     <div className="w-fit mx-auto">
-      <div className="relative">
-        <Image
-          height={200}
-          width={200}
-          src="/best/best.png"
-          alt="apple"
-          className="mx-auto"
-        />
-        <p className="absolute top-3 right-3 bg-yellow-400/80 px-2 rounded text-sm">
-          وفر 10%
-        </p>
-      </div>
+      <Image
+        height={200}
+        width={200}
+        src="/best/best.png"
+        alt="apple"
+        className="mx-auto"
+      />
       <p className="text-gray-400 text-xs">خضراوات</p>
       <h4 className="text-sm font-bold">محمر</h4>
       <span className="mt-1 flex items-center gap-1">
@@ -37,12 +33,18 @@ const BestSellCard: FC<BestSellCardProps> = ({}) => {
         <Progress value={30} />
         <p className="mt-1 text-xs">تم بيع: 20/50</p>
       </div>
-      <Button className="mt-5 w-full bg-emerald-500 hover:bg-emerald-500/90">
-        Add to cart
-        <AiOutlineShoppingCart className="mr-2" />
-      </Button>
+      <div className="mt-5 md:flex items-center gap-2">
+        <Button className="w-full bg-emerald-500 hover:bg-emerald-500/90">
+          Edit
+          <AiFillEdit className="mr-2" />
+        </Button>
+        <Button className="mt-1 md:mt-0 w-full bg-red-500 hover:bg-red-500/90">
+          Delete
+          <AiFillDelete className="mr-2" />
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default BestSellCard;
+export default DashboardProductCard;

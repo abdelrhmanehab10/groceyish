@@ -8,7 +8,7 @@ interface CategoriesProps {
 const Categories: FC<CategoriesProps> = ({ header }) => {
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex flex-col items-center gap-2 md:flex-row md:justify-between">
         <h3 className="font-bold">{header}</h3>
         <ul className="flex text-xs gap-2">
           <li className="transition hover:text-emerald-500 cursor-pointer">

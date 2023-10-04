@@ -1,4 +1,3 @@
-import Navbar from "@/components/navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
@@ -19,10 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="ar" dir="rtl">
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-        </body>
+        <body className={inter.className}>{children}</body>
       </html>
     </ClerkProvider>
   );

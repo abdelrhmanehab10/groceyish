@@ -1,3 +1,4 @@
+import AdsSpace from "./_components/ads-space";
 import BestSellSection from "./_components/best-sell/best-sell-section";
 import CategoryProductCard from "./_components/category/product-card";
 import Hero from "./_components/hero";
@@ -16,6 +17,7 @@ export default function Home() {
         <Offer />
         <BestSellSection />
         <ListItems />
+        <AdsSpace />
       </div>
     </>
   );
