@@ -3,21 +3,17 @@
 import { FC } from "react";
 import Image from "next/image";
 import {
-  AiOutlineDashboard,
   AiOutlineHeart,
   AiOutlineSearch,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { UserButton, useAuth, useUser } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { isAdmin } from "@/lib/admin";
-import { useRouter } from "next/navigation";
 interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = ({}) => {
   const { userId } = useAuth();
-  const { isSignedIn } = useUser();
-  const router = useRouter();
 
   return (
     <div className="h-16 flex justify-between items-center px-3 w-full">
@@ -40,7 +36,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
           </button>
         </form>
       ) : null}
-      <div className="flex gap-5">
+      <div className="flex items-center gap-5">
         {!isAdmin(userId) ? (
           <>
             <button>
@@ -56,17 +52,17 @@ const Navbar: FC<NavbarProps> = ({}) => {
             </button>
           </>
         ) : (
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-1"
+          <Link
+            href="/dashboard"
+            className="bg-emerald-500 p-2 rounded text-white text-xs font-bold transition border hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500"
           >
-            <p className="text-xs font-bold">لوحة التحكم</p>
-          </button>
+            لوحة التحكم
+          </Link>
         )}
-        {isSignedIn ? (
+        {userId ? (
           <UserButton afterSignOutUrl="/" />
         ) : (
-          <Link href="/sign-in" className="text-sm cursor-pointer">
+          <Link href="/sign-in" className="text-sm font-bold cursor-pointer">
             تسجيل الدخول
           </Link>
         )}

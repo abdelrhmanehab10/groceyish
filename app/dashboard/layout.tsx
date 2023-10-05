@@ -1,4 +1,5 @@
 "use client";
+
 import { isAdmin } from "@/lib/admin";
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
