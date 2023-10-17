@@ -1,7 +1,9 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import NewProductModal from "@/app/dashboard/_components/modals/new-product";
+import NewProductModal from "@/app/dashboard/_components/modals/new-product-modal";
+import EditProductModal from "@/app/dashboard/_components/modals/edit-product-modal";
+import NewCategoryModal from "@/app/dashboard/_components/modals/new-category-modal";
 
 interface ModalProviderProps {}
 
@@ -19,6 +21,8 @@ const ModalProvider: FC<ModalProviderProps> = ({}) => {
   return (
     <>
       <NewProductModal />
+      <EditProductModal />
+      <NewCategoryModal />
     </>
   );
 };

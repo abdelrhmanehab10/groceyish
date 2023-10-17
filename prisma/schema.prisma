@@ -10,14 +10,34 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+}
+
 model Product {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       String
+  sale        String?
   imageUrl    String
   quantity    String
 
+  category     Category? @relation(fields: [categoryId, categoryName], references: [id, name])
+  categoryId   String?   @db.ObjectId
+  categoryName String?
+
   ownerName String
   ownerId   String
+}
+
+model Category {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String @unique
+  imageUrl String
+
+  products Product[]
+
+  @@unique([id, name])
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -24,42 +24,65 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { UploadDropzone } from "@/lib/utils";
 import "@uploadthing/react/styles.css";
 import UploadImage from "../upload-image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 const formSchema = z.object({
   name: z.string().min(2, {
+    message: "الاسم يجب ان يتكون من حرفيين علي الاقل",
+  }),
+  category: z.string().min(2, {
     message: "الاسم يجب ان يتكون من حرفيين علي الاقل",
   }),
   description: z
     .string()
     .min(40, { message: "الوصف يجب ان يحتوي ع اكثر من 40 حرف علي الاقل" }),
+  sale: z.string(),
   price: z.string().min(1, { message: "السعر مطلوب" }),
   imageUrl: z.string().min(1, { message: "الصوره مطلوبه" }),
   quantity: z.string().min(1, { message: "الكميه مطلوبه" }),
 });
 
-interface NewProductModalProps {}
+interface EditProductModalProps {}
 
-const NewProductModal: FC<NewProductModalProps> = ({}) => {
-  const { user } = useUser();
-  const { isOpen, onClose, type } = useModal();
+const EditProductModal: FC<EditProductModalProps> = ({}) => {
+  const { isOpen, onClose, type, data: product } = useModal();
   const router = useRouter();
-  const isModalOpen = isOpen && type === "newProduct";
+  const isModalOpen = isOpen && type === "editProduct";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      category: "",
       description: "",
       price: "",
+      sale: "",
       imageUrl: "",
       quantity: "",
     },
   });
+
+  useEffect(() => {
+    if (product) {
+      form.setValue("name", product.name);
+      form.setValue("category", product.categoryName);
+      form.setValue("description", product.description);
+      form.setValue("imageUrl", product.imageUrl);
+      form.setValue("quantity", product.quantity);
+      form.setValue("price", product.price);
+      form.setValue("sale", product.sale ?? "");
+    }
+  }, [form, product]);
 
   const handleClose = () => {
     form.reset();
@@ -68,11 +91,7 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await axios.post("/api/product", {
-        ...values,
-        ownerName: user?.fullName,
-        ownerId: user?.id,
-      });
+      await axios.post(`/api/product/${product?.id}`, values);
       handleClose();
       router.refresh();
     } catch (error) {
@@ -84,9 +103,9 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>اضافة منتج جديد</DialogTitle>
+          <DialogTitle>تعديل المنتج </DialogTitle>
           <DialogDescription>
-            يمكنك اضافة منتج جديد من خلال ملئ البيانات الأتيه..
+            يمكنك تعديل المنتج من خلال ملئ البيانات الأتيه..
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -101,6 +120,25 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
                     <Input placeholder="ادخل اسم المنتج" {...field} />
                   </FormControl>
                   <FormDescription>اسم المنتج بالكامل.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>القسم</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={(e) => field.onChange(e)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="القسم" />
+                      </SelectTrigger>
+                      <SelectContent></SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>قسم المنتج.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -142,20 +180,18 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
               />
               <FormField
                 control={form.control}
-                name="quantity"
+                name="sale"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>الكميه</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="ادخل الكميه"
+                        placeholder="ادخل الخصم"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      ادخل الكميه المتاحه من المنتج.
-                    </FormDescription>
+                    <FormDescription>ادخل الخصم اذا تواجد </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -163,11 +199,30 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
             </div>
             <FormField
               control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>الكميه</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="ادخل الكميه" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    ادخل الكميه المتاحه من المنتج.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <UploadImage onChange={field.onChange} />
+                    <UploadImage
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -183,4 +238,4 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
   );
 };
 
-export default NewProductModal;
+export default EditProductModal;

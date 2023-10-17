@@ -14,7 +14,7 @@ const DashboardProducts: FC<DashboardProductsProps> = async ({}) => {
       ))}
     </div>
   ) : (
-    <div className="h-full flex justify-center items-center">
+    <div className="h-20 flex justify-center items-center">
       <p>لا توجد منتجات..</p>
     </div>
   );

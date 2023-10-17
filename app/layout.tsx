@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import ModalProvider from "@/components/providers/modal-provider";
+import { Toaster } from "sonner";
 
 const inter = Tajawal({ subsets: ["latin"], weight: ["300", "500", "700"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <ModalProvider />
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

@@ -1,14 +1,15 @@
-import { UploadDropzone } from "@/lib/utils";
+import { UploadDropzone } from "@/lib/uploadthing";
 import Image from "next/image";
 import { FC, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface UploadImageProps {
   onChange: (imageUrl: string) => void;
+  value: string;
 }
 
-const UploadImage: FC<UploadImageProps> = ({ onChange }) => {
-  const [imageUrl, setImageUrl] = useState<string>("");
+const UploadImage: FC<UploadImageProps> = ({ onChange, value }) => {
+  const [imageUrl, setImageUrl] = useState<string>(value ?? "");
   return (
     <>
       {imageUrl ? (
@@ -27,9 +28,9 @@ const UploadImage: FC<UploadImageProps> = ({ onChange }) => {
         </div>
       ) : (
         <UploadDropzone
-          endpoint="imageUploader"
+          endpoint="productImage"
           content={{
-            label: "قم باضافة صوره للمنتج",
+            label: "قم باضافة صوره",
             button: "ابدأ في الرفع",
             allowedContent: "صوره (4 ميجا بايت)",
           }}
@@ -38,6 +39,9 @@ const UploadImage: FC<UploadImageProps> = ({ onChange }) => {
               setImageUrl(res[0].url);
               onChange(res[0].url);
             }
+          }}
+          onUploadError={(error: Error) => {
+            console.log(error);
           }}
         />
       )}

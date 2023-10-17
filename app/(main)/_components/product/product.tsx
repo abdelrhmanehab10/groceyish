@@ -1,9 +1,12 @@
 import { FC } from "react";
 import Image from "next/image";
 import { AiFillStar, AiOutlineShoppingCart } from "react-icons/ai";
-interface ProductCardProps {}
+import { Product } from "@prisma/client";
+interface ProductCardProps {
+  products: Product[];
+}
 
-const ProductCard: FC<ProductCardProps> = ({}) => {
+const ProductCard: FC<ProductCardProps> = ({ products }) => {
   return (
     <div className="cursor-pointer bg-[#FEEFEA] transition hover:bg-white">
       <Image height={200} width={200} src="/product/redish.png" alt="apple" />

@@ -1,5 +1,4 @@
 import { FC } from "react";
-import CategoriesSlider from "./slider";
 
 interface CategoriesProps {
   header: string;

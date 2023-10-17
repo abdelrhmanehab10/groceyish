@@ -3,17 +3,32 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { name, description, imageUrl, ownerName, ownerId, price, quantity } =
-      await req.json();
-    const product = await db.product.create({
+    const {
+      name,
+      categoryId,
+      description,
+      imageUrl,
+      ownerName,
+      ownerId,
+      price,
+      quantity,
+    } = await req.json();
+    const product = await db.category.update({
+      where: {
+        id: categoryId,
+      },
       data: {
-        name,
-        description,
-        imageUrl,
-        ownerName,
-        ownerId,
-        price,
-        quantity,
+        products: {
+          create: {
+            name,
+            description,
+            imageUrl,
+            ownerName,
+            ownerId,
+            price,
+            quantity,
+          },
+        },
       },
     });
     return NextResponse.json(product);
