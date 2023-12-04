@@ -12,7 +12,6 @@ import { newProductSchema } from "@/types/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NewProductForm from "../forms/new-product-form";
 import * as z from "zod";
-import { db } from "@/lib/db";
 
 interface NewProductModalProps {}
 
@@ -24,7 +23,7 @@ const NewProductModal: FC<NewProductModalProps> = ({}) => {
     resolver: zodResolver(newProductSchema),
     defaultValues: {
       name: "",
-      category: "",
+      categoryId: "",
       description: "",
       price: "",
       sale: "",
