@@ -12,7 +12,7 @@ const Footer: FC<FooterProps> = ({}) => {
     <div className="mx-3">
       <div className="py-10">
         <div className="flex gap-1 items-center">
-          <Image width={40} height={40} src="/logo.png" alt="logo" />
+          <Image width={40} height={40} src="/navbar/logo.png" alt="logo" />
           <div>
             <h3 className="font-bold text-emerald-500">مكانك</h3>
             <p className="text-xs">للخضراوات</p>
