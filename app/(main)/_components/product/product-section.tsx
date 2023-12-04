@@ -1,5 +1,4 @@
 import { FC } from "react";
-import CategoryProductCard from "../category/category-card";
 import Categories from "@/components/categories";
 import { db } from "@/lib/db";
 import ProductCard from "./product";
