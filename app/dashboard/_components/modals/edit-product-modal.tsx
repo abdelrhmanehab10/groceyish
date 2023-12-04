@@ -55,7 +55,7 @@ const formSchema = z.object({
 interface EditProductModalProps {}
 
 const EditProductModal: FC<EditProductModalProps> = ({}) => {
-  const { isOpen, onClose, type, data: product } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const isModalOpen = isOpen && type === "editProduct";
 
@@ -73,16 +73,16 @@ const EditProductModal: FC<EditProductModalProps> = ({}) => {
   });
 
   useEffect(() => {
-    if (product) {
-      form.setValue("name", product.name);
-      form.setValue("category", product.categoryName);
-      form.setValue("description", product.description);
-      form.setValue("imageUrl", product.imageUrl);
-      form.setValue("quantity", product.quantity);
-      form.setValue("price", product.price);
-      form.setValue("sale", product.sale ?? "");
+    if (data?.product) {
+      form.setValue("name", data?.product.name);
+      form.setValue("category", data?.product.categoryName);
+      form.setValue("description", data?.product.description);
+      form.setValue("imageUrl", data?.product.imageUrl);
+      form.setValue("quantity", data?.product.quantity);
+      form.setValue("price", data?.product.price);
+      form.setValue("sale", data?.product.sale ?? "");
     }
-  }, [form, product]);
+  }, [form, data?.product]);
 
   const handleClose = () => {
     form.reset();
@@ -91,7 +91,7 @@ const EditProductModal: FC<EditProductModalProps> = ({}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await axios.post(`/api/product/${product?.id}`, values);
+      await axios.post(`/api/product/${data?.product?.id}`, values);
       handleClose();
       router.refresh();
     } catch (error) {

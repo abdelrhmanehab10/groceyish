@@ -24,9 +24,9 @@ model Product {
   imageUrl    String
   quantity    String
 
-  category     Category? @relation(fields: [categoryId, categoryName], references: [id, name])
-  categoryId   String?   @db.ObjectId
-  categoryName String?
+  category     Category @relation(fields: [categoryId, categoryName], references: [id, name])
+  categoryId   String   @db.ObjectId
+  categoryName String
 
   ownerName String
   ownerId   String
