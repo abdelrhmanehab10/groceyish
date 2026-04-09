@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "next": "latest",
+    "picomatch": "^2.3.2",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.47.0",
